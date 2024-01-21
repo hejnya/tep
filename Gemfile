@@ -38,3 +38,4 @@ gem 'sqlite3'
 
 #FIXME jessie
 #gem 'devise', '~> 3.1.1'
+gem 'rack-attack'
