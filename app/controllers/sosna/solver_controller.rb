@@ -847,7 +847,7 @@ EOL
         points = res.score
       end
 
-      if solver.grade_num.nil? || solver.grade_num.to_i == 0
+      if solver.grade_num.nil? || solver.grade_num.to_i < 0
         finish_year = ''
       else
         finish_year = solver.finish_year || ( year + 1 + maturity_grade - solver.grade_num.to_i )

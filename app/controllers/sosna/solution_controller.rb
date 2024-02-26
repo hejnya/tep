@@ -124,7 +124,7 @@ class Sosna::SolutionController < SosnaController
 
   def _results_updated?(annual, level, round)
     max_grade = Sosna::Solver::max_grade_for_level(level)
-    solvers = get_sorted_solvers(annual: annual, grade_num: ( 1 .. max_grade) )
+    solvers = get_sorted_solvers(annual: annual, grade_num: ( 0 .. max_grade) )
 
     res_min = Sosna::Result.where(annual:annual, round: round, level: level, solver_id: solvers.map{ |s| s.id } ).minimum(:updated_at)
     ress_min = Sosna::Result.where(updated_at: res_min).all.map {|r| r.id}
@@ -846,7 +846,7 @@ class Sosna::SolutionController < SosnaController
     max_grade = Sosna::Solver::max_grade_for_level(level)
 
     # resitele
-    solvers = get_sorted_solvers(annual: roc, grade_num: ( 1 .. max_grade) ).to_a
+    solvers = get_sorted_solvers(annual: roc, grade_num: ( 0 .. max_grade) ).to_a
 
     # vysledky (budou zmeneny)
     results_by_solver = _get_results_by_solver(solvers, roc, level, se)
@@ -1231,7 +1231,7 @@ class Sosna::SolutionController < SosnaController
   def _prepare_solvers_problems_solutions(want_test: true, want_bonus: true)
     _params_roc_level_se_ul
     max_grade = Sosna::Solver::max_grade_for_level(@level)
-    where = { annual: @annual, grade_num: (1..max_grade)}
+    where = { annual: @annual, grade_num: (0..max_grade)}
     where.merge!({is_test_solver: false }) if ! want_test
     @solvers = get_sorted_solvers(where)
     @problems = _problems_from_roc_level_se_ul
