@@ -275,6 +275,7 @@ module ApplicationHelper
     Sosna::Config.all.load.each {|c| @config[c.key.to_sym] =  c.value}
     @annual = @config[:annual]
     @round = @config[:round]
+    @corected_round = @config[:corrected_round]
     #log( "config: #{@config}" )
   end
 

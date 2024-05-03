@@ -583,7 +583,7 @@ class Sosna::SolverController < SosnaController
     load_config
     annual = params[:roc] || @annual
     if annual == @annual
-      round = @config[:show_revisions] == 'yes'? @round.to_i : @round.to_i - 1
+      round = @config[:corrected_round]
       die if round <= 0
     else
       round = Sosna::Problem.where(annual: annual).maximum(:round)

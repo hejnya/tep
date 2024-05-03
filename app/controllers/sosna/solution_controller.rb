@@ -56,7 +56,7 @@ class Sosna::SolutionController < SosnaController
   # @results_by_solver:: hash solver.id => Sosna::Result
   def rocnik
     _prepare_solvers_problems_solutions(want_test: true)
-    results = Sosna::Result.where( :annual => @annual).load
+    results = Sosna::Result.where( :annual => @annual, :level => @level ).load
     @results_by_solver_round = {}
     results.each do |result|
       @results_by_solver_round[result.solver_id] ||= {}
@@ -369,8 +369,7 @@ class Sosna::SolutionController < SosnaController
       # owner: check if it allowed to download
       round = solution.problem.round
       annual = solution.problem.annual
-      sol_in_this_round_allowed   = round <  @config[:round].to_i
-      sol_in_this_round_allowed ||= round == @config[:round].to_i && @config[:show_revisions] == 'yes'
+      sol_in_this_round_allowed   = round <=  @config[:correct_round].to_i
       sol_in_this_round_allowed ||= annual < @config[:annual].to_i
       if ! sol_in_this_round_allowed
         add_alert "Chyba: soubor ještě neexistuje"
