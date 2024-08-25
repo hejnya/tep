@@ -65,6 +65,10 @@
   <b>Zkontrolujte si, že všechny informace uvedené ve vašem <%= link_to "účastnickém profilu", act_participant_path(current_user.participant), :target => '_blank' %> jsou aktuální!</b>
 
   <p>
-    <%= f.submit "Uložit přihlášku", :class => 'btn btn-primary' %>
+    <% if Act::EventParticipant::chosen(@event, Act::Participant::get_participant(current_user)) == "none" %>
+      <%= f.submit "Uložit přihlášku", :class => 'btn btn-primary' %>
+    <% else %>
+      <%= f.submit "Změnit přihlášku", :class => 'btn btn-primary' %>
+    <% end %>
   </p>
 <% end %>

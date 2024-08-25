@@ -68,7 +68,8 @@ class Act::EventsController < ActController
       end
     end
 
-    @num_p_yes = @event.num_signed("yes", false, true, true)
+    @num_p_yes = @event.num_signed("yes", false, true, "participant")
+    @num_s_yes = @event.num_signed("yes", false, true, "substitute")
 
     @already_happened = @event.event_end < Date.current
 

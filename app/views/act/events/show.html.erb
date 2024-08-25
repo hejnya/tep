@@ -20,7 +20,7 @@
 <p><b>Datum: <%= @event.date_str %></b><p>
 
 <% if @event.limit_num_participants %>
-  Na tuto akci může jet maximálně <b><%= @event.max_participants %></b> účastníků. Aktuálně je <%= @num_p_yes %> přihlášených.
+  Na tuto akci může jet maximálně <b><%= @event.max_participants %></b> účastníků. Aktuálně je <%= @num_p_yes %> přihlášených a <%= @num_s_yes %> náhradníků.
 <% end %>
 
 <% if @event.event_info_url != "" %>

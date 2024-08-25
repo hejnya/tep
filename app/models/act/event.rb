@@ -216,7 +216,7 @@ class Act::Event < ActiveRecord::Base
 
   ##
   # *Returns* kolik účastníků je na tuto akci zapsaných daným způsobem
-  def num_signed(status, orgs_only, children_only, participants_only=false)
+  def num_signed(status, orgs_only, children_only, chosen)
     participants = Act::EventParticipant.where(event_id: id).where(status: status)
     if orgs_only
       participants = participants.select { |p| p.org? }
@@ -226,9 +226,7 @@ class Act::Event < ActiveRecord::Base
       participants = participants.select { |p| !(p.org?) }
     end
 
-    if participants_only
-      participants = participants.select { |p| p.chosen == "participant" }
-    end
+    participants = participants.select { |p| p.chosen == chosen }
 
     participants.length()
   end
@@ -262,10 +260,8 @@ class Act::Event < ActiveRecord::Base
       query_end = "AND p.event_id IS NOT NULL "
     end
 
-    query_end += "ORDER BY e.event_start DESC"
-
-    future_query = query_start + "e.event_end >= ? " + query_end
-    past_query = query_start + "e.event_end < ? " + query_end
+    future_query = query_start + "e.event_end >= ? " + "ORDER BY e.event_start ASC"
+    past_query = query_start + "e.event_end < ? " + "ORDER BY e.event_start DESC"
 
     args_common = []
 

@@ -152,6 +152,27 @@ class Act::Participant < ActiveRecord::Base
   end
 
   ##
+  # *Returns* přezdívka, jméno a přijmení tohoto účastnického účtu
+  def full_name
+    result = ""
+    if name && last_name
+      result += "#{name} #{last_name}"
+    elsif name
+      result += "#{name}"
+    elsif last_name
+      result += "#{last_name}"
+    else
+      email.split('@',2)[0]
+    end
+
+    if not nickname == ""
+      result += " (#{nickname})"
+    end
+
+    return result
+  end
+
+  ##
   # *Returns* datum narození čitelně
   def birth_str
     begin

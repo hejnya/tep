@@ -1,8 +1,8 @@
 <p><%= link_to @event_participant.participant.participant_name, act_participant_url(@event_participant.participant) %>
 <% if @is_new %>
-  Se přihlásil na
+  se přihlásil<%= "a" if !(@event_participant.male?()) %> na
 <% else %>
-  Změnil<%= @event_participant.male?() ? "" : "a" %> svoji přihlášku na
+  změnil<%= "a" if !(@event_participant.male?()) %> svoji přihlášku na
 <% end %>
 akci
 <%= link_to @event.title, act_event_url(@event) %>.
@@ -11,10 +11,18 @@ akci
 Aktuální stav přihlášky:
 
 <p>
-  <% if @event_participant.male?() %>
-    Účastník
+  <% if @event_participant.org?() %>
+    <% if @event_participant.male?() %>
+      Organizátor
+    <% else %>
+      Organizátorka
+    <% end %>
   <% else %>
-    Účastnice
+    <% if @event_participant.male?() %>
+      Účastník
+    <% else %>
+      Účastnice
+    <% end %>
   <% end %>
 
   <% if @event_participant.status == 'yes' %>
@@ -29,7 +37,24 @@ Aktuální stav přihlášky:
 </p>
 
 <p>
-  Poznámka: <%= @event_participant.note %>
+  <% if @event_participant.note == "" %>
+  <% if @event_participant.org?() %>
+    <% if @event_participant.male?() %>
+      Organizátor
+    <% else %>
+      Organizátorka
+    <% end %>
+  <% else %>
+    <% if @event_participant.male?() %>
+      Účastník
+    <% else %>
+      Účastnice
+    <% end %>
+  <% end %>
+  neuvedl<%= "a" if !(@event_participant.male?()) %> ke své přihlášce žádné veřejné poznámky.
+  <% else %>
+    Poznámka: <%= @event_participant.note %>
+  <% end %>
 <p>
 
 <% if @event.spec_place %>

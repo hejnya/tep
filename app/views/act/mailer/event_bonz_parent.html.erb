@@ -7,17 +7,9 @@ Dobrý den,
 <% end %>
 <%= link_to @event_participant.participant.name + " " + @event_participant.participant.last_name , act_participant_url(@event_participant.participant) %>
 <% if @is_new %>
-  <% if @event_participant.male?() %>
-  se přihlásil na
-  <% else %>
-  se přihlásila na
-  <% end %>
+  se přihlásil<%= "a" if !(@event_participant.male?()) %> na
 <% else %>
-  <% if @event_participant.male?() %>
-  změnil svoji přihlášku na
-  <% else %>
-  změnila svoji přihlášku na
-  <% end %>
+  změnil<%= "a" if !(@event_participant.male?()) %> svoji přihlášku na
 <% end %>
 akci
 <%= link_to @event.title, act_event_url(@event) %>.
