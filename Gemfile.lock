@@ -137,6 +137,8 @@ GEM
       prawn
       rails (>= 2.1)
     rack (1.6.10)
+    rack-attack (6.7.0)
+      rack (>= 1.0, < 4)
     rack-protection (1.5.5)
       rack
     rack-test (0.6.3)
@@ -239,6 +241,7 @@ DEPENDENCIES
   prawn (~> 0.15.0)
   prawn-templates
   prawnto
+  rack-attack
   rails
   rake
   role_model

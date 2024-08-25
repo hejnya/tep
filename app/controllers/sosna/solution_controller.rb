@@ -56,7 +56,7 @@ class Sosna::SolutionController < SosnaController
   # @results_by_solver:: hash solver.id => Sosna::Result
   def rocnik
     _prepare_solvers_problems_solutions(want_test: true)
-    results = Sosna::Result.where( :annual => @annual).load
+    results = Sosna::Result.where( :annual => @annual, :level => @level ).load
     @results_by_solver_round = {}
     results.each do |result|
       @results_by_solver_round[result.solver_id] ||= {}
@@ -124,7 +124,7 @@ class Sosna::SolutionController < SosnaController
 
   def _results_updated?(annual, level, round)
     max_grade = Sosna::Solver::max_grade_for_level(level)
-    solvers = get_sorted_solvers(annual: annual, grade_num: ( 1 .. max_grade) )
+    solvers = get_sorted_solvers(annual: annual, grade_num: ( 0 .. max_grade) )
 
     res_min = Sosna::Result.where(annual:annual, round: round, level: level, solver_id: solvers.map{ |s| s.id } ).minimum(:updated_at)
     ress_min = Sosna::Result.where(updated_at: res_min).all.map {|r| r.id}
@@ -369,8 +369,7 @@ class Sosna::SolutionController < SosnaController
       # owner: check if it allowed to download
       round = solution.problem.round
       annual = solution.problem.annual
-      sol_in_this_round_allowed   = round <  @config[:round].to_i
-      sol_in_this_round_allowed ||= round == @config[:round].to_i && @config[:show_revisions] == 'yes'
+      sol_in_this_round_allowed   = round <=  @config[:correct_round].to_i
       sol_in_this_round_allowed ||= annual < @config[:annual].to_i
       if ! sol_in_this_round_allowed
         add_alert "Chyba: soubor ještě neexistuje"
@@ -846,7 +845,7 @@ class Sosna::SolutionController < SosnaController
     max_grade = Sosna::Solver::max_grade_for_level(level)
 
     # resitele
-    solvers = get_sorted_solvers(annual: roc, grade_num: ( 1 .. max_grade) ).to_a
+    solvers = get_sorted_solvers(annual: roc, grade_num: ( 0 .. max_grade) ).to_a
 
     # vysledky (budou zmeneny)
     results_by_solver = _get_results_by_solver(solvers, roc, level, se)
@@ -1231,7 +1230,7 @@ class Sosna::SolutionController < SosnaController
   def _prepare_solvers_problems_solutions(want_test: true, want_bonus: true)
     _params_roc_level_se_ul
     max_grade = Sosna::Solver::max_grade_for_level(@level)
-    where = { annual: @annual, grade_num: (1..max_grade)}
+    where = { annual: @annual, grade_num: (0..max_grade)}
     where.merge!({is_test_solver: false }) if ! want_test
     @solvers = get_sorted_solvers(where)
     @problems = _problems_from_roc_level_se_ul

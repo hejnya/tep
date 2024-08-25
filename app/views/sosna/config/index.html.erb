@@ -22,15 +22,14 @@
                 <td></td>
               </tr>
               <tr>
-                <th>Série</th>
-                <td><%= text_field :config, :round,  value: @config[:round] %></td>
-                <td></td>
+                <th>Opravená série</th>
+                <td><%= text_field :config, :corrected_round,  value: @config[:corrected_round] %></td>
+                <td>V této sérii (a ve všechn nižších) bude pro řešitele přístupné opravené řešení.</td>
               </tr>
               <tr>
-                <th>Zobrazit opravené řešení aktuální série</th>
-                <td><%= select_tag 'config[show_revisions]', options_for_select(["yes","no"], @config[:show_revisions]) %></td>
-                <td>řešení předchozích sérií budou zobrazeny bez ohledu na tuto hodnotu</td>
-                <td></td>
+                <th>Aktuání série</th>
+                <td><%= text_field :config, :round,  value: @config[:round] %></td>
+                <td>kam se bude přesměrovávat při "Moje řešení". Uživatelé mohou nahrávat řešení do této serie, až do termínu odeslání.</td>
               </tr>
               <tr>
                 <th>Série s Návratkou</th>

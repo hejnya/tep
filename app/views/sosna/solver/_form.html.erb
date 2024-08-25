@@ -179,7 +179,7 @@
         <div class="col-sm-9 <%= form_error_class @solver, :finish_year, :grade %>">
   
          <%#= f.text_field :grade_num, :class=>'input-mini' %>
-         <%= f.select(:grade_num, options_for_select((1..9), @solver.grade_num) , {}, {:class=> 'input-mini'}) %>
+         <%= f.select(:grade_num, options_for_select((0..9), @solver.grade_num) , {}, {:class=> 'input-mini'}) %>
          Třída (6.A, prima, ...)
          <%= f.text_field :grade, :class=>'input-mini' %>
          <%= form_error @solver, :finish_year, :grade%>

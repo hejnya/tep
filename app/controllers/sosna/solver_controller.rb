@@ -583,7 +583,7 @@ class Sosna::SolverController < SosnaController
     load_config
     annual = params[:roc] || @annual
     if annual == @annual
-      round = @config[:show_revisions] == 'yes'? @round.to_i : @round.to_i - 1
+      round = @config[:corrected_round]
       die if round <= 0
     else
       round = Sosna::Problem.where(annual: annual).maximum(:round)
@@ -847,7 +847,7 @@ EOL
         points = res.score
       end
 
-      if solver.grade_num.nil? || solver.grade_num.to_i == 0
+      if solver.grade_num.nil? || solver.grade_num.to_i < 0
         finish_year = ''
       else
         finish_year = solver.finish_year || ( year + 1 + maturity_grade - solver.grade_num.to_i )

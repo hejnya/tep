@@ -79,8 +79,7 @@
          </td>
       <% end %>
       <td>
-        <% sol_in_this_round_allowed   = @round.to_i <  @config[:round].to_i %>
-        <% sol_in_this_round_allowed ||= @round == @config[:round] && @config[:show_revisions] == 'yes'  %>
+        <% sol_in_this_round_allowed   = @round.to_i <=  @config[:corrected_round].to_i %>
         <% sol_in_this_round_allowed ||= @annual < @config[:annual] %>
         <% if p.junior_level? and not @solver.junior? %>
            -
@@ -96,7 +95,7 @@
           <% end %>
         <% else %>
           <% if sol.filename || sol.has_paper_mail %>
-            <i class="fa fa-ban red"></i> <i>řešení není opravené</i>
+            <i class="fa fa-ban red"></i> <i>řešení zatím není opravené</i>
           <% end %>
         <% end %>
         </td>

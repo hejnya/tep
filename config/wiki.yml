@@ -11,8 +11,8 @@ defaults: &defaults
     read:   :org
     update: :org
     notify: 
-       - path: 'vzoraky/'
-         email: 'letak-l@pikomat.mff.cuni.cz'
+#       - path: 'vzoraky/'
+#         email: 'letak-l@pikomat.mff.cuni.cz'
        - path: 'jakna/'
          email: 'vitas@matfyz.cz'
        - path: 'jakna/'
